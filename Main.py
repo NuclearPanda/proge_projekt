@@ -9,4 +9,4 @@ def new():
 def add(a,b):
     return a
 
-
+print("Olen vinge")
