@@ -10,5 +10,8 @@ def add(a,b):
     return a
 
 
+
+
 class test():
     pass
+print("Olen vinge")
