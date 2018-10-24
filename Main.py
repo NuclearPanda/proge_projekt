@@ -10,3 +10,5 @@ def add(a,b):
     return a
 
 
+class test():
+    pass
