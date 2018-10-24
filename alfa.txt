@@ -1,0 +1,7 @@
+- teeme gui play nupuga
+- hakkab heli salvestama (salvestab arvutisse)
+- voice rec
+- väljastab GUIs tuvastatud heli tekstina -
+- annab teksti cleverboti APIle
+- küsib cleverboti APIlt vastuse ja kuvab selle GUIs
+- vestlus salvestub faili
