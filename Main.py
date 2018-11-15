@@ -21,12 +21,14 @@ class speak:
         speech_array = []
         while True: # mainloop() asenduseks
             speech = self.recognize()
+            respone = self.cleverbot(speech)
             #speech= str(randint(0,9)) testimiseks, kui ei saa rääkida
             if speech == 'exit ':
                 exit(0)
             if speech is None:
                 continue
             speech = 'You: ' + speech
+            response = 'Cleverbot: ' + response
             speech_array.append(speech)
             if len(speech_array)>17:
                 speech_array.pop(0)
@@ -45,7 +47,7 @@ class speak:
         r.dynamic_energy_threshold = True
         with sr.Microphone() as source:
             print('Started listening.')
-            audio = r.listen(source,phrase_time_limit=2)
+            audio = r.listen(source, phrase_time_limit=3)
         print("Stopped listening.")
 
         try:
@@ -62,6 +64,9 @@ class speak:
             print("Could not request results from Google Cloud Speech service; {0}".format(e))
             exit(1)
         return speech_to_text
+
+    def cleverbot(self,speech):
+        pass
 
 
 
