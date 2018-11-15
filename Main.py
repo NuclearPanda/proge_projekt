@@ -1,29 +1,40 @@
 import speech_recognition as sr
 from tkinter import *
 from tkinter import ttk
+from random import randint
 
 class speak:
     def __init__(self,apikey):
-        self.apikey = apikey
-        self.gui = Tk()
+        self.apikey = apikey # apikey failinimi
+        self.gui = Tk() # tkinteri init
     def Main(self):
         self.gui.title("Action")
         self.gui.geometry("500x500")
         wait = IntVar()
         start_btn = ttk.Button(self.gui, text="Start", command=lambda: wait.set(1))
-        start_btn.place(x=100, y=100, width=150)
+        start_btn.grid(row=0,ipadx=210)
         exit_label = Label(self.gui, text='Say exit to exit')
-        exit_label.place(x=275, y=100)
-        start_btn.wait_variable(wait)
-        while True:
+        exit_label.grid(row=1,column=0,ipadx=210)
+        start_btn.wait_variable(wait) # ootab et start nuppu vajutataks
+        empty_line = Label(self.gui, text='') # tühi rida vahele
+        empty_line.grid(row=2)
+        speech_array = []
+        while True: # mainloop() asenduseks
             speech = self.recognize()
+            #speech= str(randint(0,9)) testimiseks, kui ei saa rääkida
             if speech == 'exit ':
                 exit(0)
             if speech is None:
                 continue
             speech = 'You: ' + speech
-            gui_update = Label(self.gui, text=speech)
-            gui_update.pack()
+            speech_array.append(speech)
+            if len(speech_array)>17:
+                speech_array.pop(0)
+            for i in range(3,len(speech_array)+3,2):
+                gui_update = Label(self.gui, text=speech)
+                gui_update.grid(row=i)
+                response = Label(self.gui, text='Cleverbot vastus')
+                response.grid(row=i+1)
             self.gui.update_idletasks()
             self.gui.update()
 
@@ -31,9 +42,10 @@ class speak:
     def recognize(self):
         # aktiveerib mikrofoni ja kuulab kuni on vaikus
         r = sr.Recognizer()
+        r.dynamic_energy_threshold = True
         with sr.Microphone() as source:
             print('Started listening.')
-            audio = r.listen(source)
+            audio = r.listen(source,phrase_time_limit=2)
         print("Stopped listening.")
 
         try:
