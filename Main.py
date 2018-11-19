@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from random import randint
 
+
 class speak:
     def __init__(self,apikey):
         self.apikey = apikey # apikey failinimi
@@ -21,22 +22,23 @@ class speak:
         speech_array = []
         while True: # mainloop() asenduseks
             speech = self.recognize()
-            respone = self.cleverbot(speech)
-            #speech= str(randint(0,9)) testimiseks, kui ei saa rääkida
+            #respone = self.cleverbot(speech)
+            response = 'Cleverbot vastus'
+            #speech = str(randint(0,9)) #testimiseks, kui ei saa rääkida
             if speech == 'exit ':
                 exit(0)
             if speech is None:
                 continue
             speech = 'You: ' + speech
-            response = 'Cleverbot: ' + response
-            speech_array.append(speech)
-            if len(speech_array)>17:
-                speech_array.pop(0)
-            for i in range(3,len(speech_array)+3,2):
-                gui_update = Label(self.gui, text=speech)
-                gui_update.grid(row=i)
-                response = Label(self.gui, text='Cleverbot vastus')
-                response.grid(row=i+1)
+            #response = 'Cleverbot: ' + response
+            speech_array.append(Label(self.gui, text=speech))
+            speech_array.append(Label(self.gui, text=response))
+            if len(speech_array)>20:
+                speech_array.pop(0).destroy()
+                speech_array.pop(0).destroy()
+            for i in range(3,len(speech_array)+3):
+                speech_array[i-3].grid(row=i)
+                print(i)
             self.gui.update_idletasks()
             self.gui.update()
 
