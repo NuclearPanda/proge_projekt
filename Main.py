@@ -20,7 +20,7 @@ class speak:
         empty_line = Label(self.gui, text='') # tühi rida vahele
         empty_line.grid(row=2)
         speech_array = []
-        while True: # mainloop() asenduseks
+        while True: # mainloop() asenduseks et GUI püsiks
             speech = self.recognize()
             #respone = self.cleverbot(speech)
             response = 'Cleverbot vastus'
