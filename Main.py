@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from random import randint
 import time
+from cleverwrap import CleverWrap
 
 
 class speak:
@@ -37,8 +38,6 @@ class speak:
                 break
             self.record_btn_text.set('Waiting for cleverbot response...')
             self.gui.update()
-            time.sleep(5)
-
             response = self.cleverbot(speech)
             #speech = str(randint(0,9)) #testimiseks, kui ei saa rääkida
             if speech == 'exit ':
@@ -83,7 +82,9 @@ class speak:
         return speech_to_text
 
     def cleverbot(self,speech):
-        return 'Cleverbot vastus läheb siia'
+        cw = CleverWrap(open(self.cleverbot_apikey).read())
+        vastus = cw.say(speech)
+        return vastus
 
     def wait(self):
         self.record_btn_text.set('Listening now')
@@ -93,5 +94,5 @@ class speak:
     def shutdown(self):
         self.running = False
         self.wait_var.set(2)
-test = speak('apikey.json')
+test = speak('apikey.json','cleverbotkey.txt')
 test.Main()
