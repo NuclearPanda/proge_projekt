@@ -6,8 +6,9 @@ import time
 
 
 class speak:
-    def __init__(self,apikey):
-        self.apikey = apikey # apikey failinimi
+    def __init__(self, google_apikey, cleverbot_apikey):
+        self.cleverbot_apikey = cleverbot_apikey
+        self.google_apikey = google_apikey # apikey failinimi
         self.gui = Tk() # tkinteri init
         self.record_btn_text = StringVar()
         self.wait_var = IntVar()
@@ -67,9 +68,9 @@ class speak:
         print("Stopped listening.")
 
         try:
-            credentials = open(self.apikey).read()
+            credentials = open(self.google_apikey).read()
         except FileNotFoundError:
-            print(self.apikey,'file not found')
+            print(self.google_apikey, 'file not found')
             exit(1)
         try:
             speech_to_text = r.recognize_google_cloud(audio, credentials_json=credentials)
