@@ -35,13 +35,10 @@ class speak:
             if self.running:
                 speech = self.recognize()
             else:
-                break
-            self.record_btn_text.set('Waiting for cleverbot response...')
-            self.gui.update()
-            response = self.cleverbot(speech)
-            #speech = str(randint(0,9)) #testimiseks, kui ei saa rääkida
+                exit(0)
             if speech == 'exit ':
                 exit(0)
+            response = self.cleverbot(speech)
             if speech is None:
                 continue
             speech = 'You: ' + speech
@@ -63,8 +60,10 @@ class speak:
         r.dynamic_energy_threshold = True
         with sr.Microphone() as source:
             print('Started listening.')
-            audio = r.listen(source, phrase_time_limit=3)
+            audio = r.listen(source, phrase_time_limit=5)
         print("Stopped listening.")
+        self.record_btn_text.set('Stopped listening')
+        self.gui.update()
 
         try:
             credentials = open(self.google_apikey).read()
@@ -78,12 +77,18 @@ class speak:
             return None
         except sr.RequestError as e:
             print("Could not request results from Google Cloud Speech service; {0}".format(e))
-            exit(1)
+            raise FileNotFoundError
         return speech_to_text
 
     def cleverbot(self,speech):
-        cw = CleverWrap(open(self.cleverbot_apikey).read())
-        vastus = cw.say(speech)
+        self.record_btn_text.set('Waiting for cleverbot response...')
+        self.gui.update()
+        try:
+            self.cw = CleverWrap(open(self.cleverbot_apikey).read())
+        except FileNotFoundError:
+            print(self.cleverbot_apikey, 'file was not found')
+            raise FileNotFoundError
+        vastus = self.cw.say(speech)
         return vastus
 
     def wait(self):
@@ -93,6 +98,9 @@ class speak:
 
     def shutdown(self):
         self.running = False
+        self.cw.reset()
         self.wait_var.set(2)
-test = speak('apikey.json','cleverbotkey.txt')
+
+
+test = speak('apikey.json', 'cleverbotkey.txt')
 test.Main()
